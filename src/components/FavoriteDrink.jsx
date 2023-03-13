@@ -4,26 +4,18 @@ import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function FavoriteDrink({ recipe, index = 0, onClick }) {
+function FavoriteDrink({ recipe, index, onClick }) {
   const [mensage, setMensage] = useState(false);
 
-  const currentType = 'meal';
-
-  const route = currentType.includes(recipe.type.toLowerCase()) ? '/meals' : '/drinks';
-
   const shareRecipe = () => {
-    try {
-      navigator.clipboard.writeText(`http://localhost:3000${route}/${recipe.id}`);
-    } catch (error) {
-      console.error(error);
-    }
+    navigator.clipboard.writeText(`http://localhost:3000${recipe.type}s/${recipe.id}`);
     setMensage(true);
   };
 
   return (
     <div>
       <div>
-        <Link to={ `${route}/${recipe.id}` } style={ { textDecoration: 'none' } }>
+        <Link to={ `${recipe.type}s/${recipe.id}` } style={ { textDecoration: 'none' } }>
           <img
             alt="foodpicture"
             src={ recipe.image }
@@ -55,7 +47,7 @@ function FavoriteDrink({ recipe, index = 0, onClick }) {
 }
 
 FavoriteDrink.propTypes = {
-  index: PropTypes.number,
+  index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
   recipe: PropTypes.shape({
     alcoholicOrNot: PropTypes.string,
