@@ -16,6 +16,8 @@ import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
+import styles from '../styles/pages/RecipeDetails.module.sass';
+
 import {
   DONE_RECIPES,
   DRINK,
@@ -107,8 +109,9 @@ function RecipeDetails() {
           {error ? (
             <p data-testid={ ERROR_MESSAGE }>Erro</p>
           ) : (
-            <>
+            <div className={ styles.mainContainer }>
               <img
+                className={ styles.recipeImage }
                 src={ image }
                 alt="Imagem da Receita"
                 width="200"
@@ -182,7 +185,7 @@ function RecipeDetails() {
                   />
                 </Link>
               )}
-            </>
+            </div>
           )}
         </div>
       )}

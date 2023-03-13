@@ -23,7 +23,7 @@ function Header({
 
   return (
     <>
-      <div className="headerContainer">
+      <header className="headerContainer">
         <Link to="/meals" className="imgContainer">
 
           <img src={ logo } alt="logo" />
@@ -56,11 +56,11 @@ function Header({
             </Link>
           )}
         </div>
-      </div>
+      </header>
       <div className="gap" />
       {showSearchBar && <SearchBar />}
-      <div style={ !showTitle ? { display: 'none' } : null } className="titleContainer">
-        <img src={ titleIcon } alt="title" />
+      <div className="titleContainer" style={ !showTitle ? { display: 'none' } : null }>
+        <img src={ titleIcon } alt="title" className="titleIcon" />
         <h1
           data-testid="page-title"
         >
