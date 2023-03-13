@@ -8,6 +8,9 @@ import oneDrink from '../../cypress/mocks/oneDrink';
 import Meals from '../pages/Meals';
 import Drink from '../pages/Drinks';
 
+import emptyMeals from '../../cypress/mocks/emptyMeals';
+import emptyDrinks from '../../cypress/mocks/emptyDrinks';
+
 const searchInputId = 'search-input';
 const searchBtnId = 'exec-search-btn';
 const nameRadioId = 'name-search-radio';
@@ -46,7 +49,7 @@ describe('Testando o componente SearchBar', () => {
   });
 
   it('Testa se o alert é chamado quando a busca pela primeira letra tem mais de 1 caracter', () => {
-    const alertMock = jest.spyOn(window, 'alert');
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
     renderWithRouter(<SearchBar />, {
       initialEntries: ['/meals'],
     });
@@ -151,5 +154,49 @@ describe('Testando o componente SearchBar', () => {
 
       expect(pathname).toBe('/drinks/178319');
     });
+  });
+
+  it('Verifica se o alert é chamado quando não tem retorno da Api de Meals', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({ json: jest.fn().mockResolvedValue(emptyMeals) });
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    renderWithRouter(<SearchBar />, {
+      initialEntries: ['/meals'],
+    });
+
+    const searchInput = screen.getByTestId(searchInputId);
+    const nameRadio = screen.getByTestId(nameRadioId);
+    const execSearchBtn = screen.getByTestId(searchBtnId);
+
+    fireEvent.change(searchInput, { target: { value: 'xablau' } });
+    expect(searchInput.value).toBe('xablau');
+    fireEvent.click(nameRadio);
+    fireEvent.click(execSearchBtn);
+
+    expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=xablau');
+
+    await waitFor(() => expect(alertMock).toBeCalled());
+  });
+
+  it('Verifica se o alert é chamado quando não tem retorno da Api de Drinks', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({ json: jest.fn().mockResolvedValue(emptyDrinks) });
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    renderWithRouter(<SearchBar />, {
+      initialEntries: ['/drinks'],
+    });
+
+    const searchInput = screen.getByTestId(searchInputId);
+    const nameRadio = screen.getByTestId(nameRadioId);
+    const execSearchBtn = screen.getByTestId(searchBtnId);
+
+    fireEvent.change(searchInput, { target: { value: 'xablau' } });
+    expect(searchInput.value).toBe('xablau');
+    fireEvent.click(nameRadio);
+    fireEvent.click(execSearchBtn);
+
+    expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=xablau');
+
+    await waitFor(() => expect(alertMock).toBeCalled());
   });
 });

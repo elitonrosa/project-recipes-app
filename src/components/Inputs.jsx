@@ -18,7 +18,7 @@ function Inputs({
         name={ name }
         data-testid={ dataTestid }
         onChange={ onChange }
-        checked={ checked }
+        checked={ type !== 'radio' ? checked : null }
         value={ value }
         id={ dataTestid }
       />

@@ -1,0 +1,41 @@
+export const doneRecipes = [
+  {
+    id: '178319',
+    type: 'drink',
+    nationality: '',
+    category: 'Cocktail',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'Aquamarine',
+    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    tags: [],
+    doneDate: '2023-03-11T22:57:34.005Z',
+  },
+  {
+    id: '17203',
+    type: 'drink',
+    nationality: '',
+    category: 'Ordinary Drink',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'Kir',
+    image: 'https://www.thecocktaildb.com/images/media/drink/apneom1504370294.jpg',
+    tags: [
+      'IBA',
+      'ContemporaryClassic',
+    ],
+    doneDate: '2023-03-12T20:01:26.188Z',
+  },
+  {
+    id: '52772',
+    type: 'meal',
+    nationality: 'Japanese',
+    category: 'Chicken',
+    alcoholicOrNot: '',
+    name: 'Teriyaki Chicken Casserole',
+    image: 'https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg',
+    tags: [
+      'Meat',
+      'Casserole',
+    ],
+    doneDate: '2023-03-12T20:02:23.872Z',
+  },
+];

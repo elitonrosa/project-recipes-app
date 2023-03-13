@@ -105,6 +105,7 @@ describe('Testes da Tela Recipe Details', () => {
     expect(buttonMeals.innerHTML).toBe(
       '<img src="blackHeartIcon.svg" alt="Button Icon">',
     );
+    userEvent.click(buttonMeals);
 
     expect(JSON.parse(localStorage.getItem(FAVORITE_RECIPES))).not.toBeNull();
 
@@ -158,5 +159,20 @@ describe('Testes da Tela Recipe Details', () => {
 
     const errorMessage = screen.getByTestId(ERROR_MESSAGE);
     expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('Testa se enquanto as recomendações estão sendo carregadas, é exibido um texto de "Carregando"', async () => {
+    renderWithRouter(<App />, { initialEntries: [MEALS_ROUTE] });
+
+    await waitFor(() => screen.findByTestId(RECIPE_TITLE));
+
+    const isLoading = screen.getByText(/Carregando.../i);
+    expect(isLoading).toBeInTheDocument();
+
+    await waitFor(() => screen.findByTestId('0-recommendation-card'));
+    expect(isLoading).not.toBeInTheDocument();
+
+    const recommendatins = screen.getAllByTestId(/-recommendation-title/);
+    expect(recommendatins.length).toBe(6);
   });
 });
