@@ -87,6 +87,10 @@ describe('Testes da Tela Recipe Details', () => {
 
     const message = screen.getByText(/Link Copied!/i);
     expect(message).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(message).not.toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 
   it('Testa se é possível favoritar e desfavoritar uma receita', async () => {
