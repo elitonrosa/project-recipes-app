@@ -2,6 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import '../styles/pages/Profile.sass';
+import profileIcon from '../images/profileIcon.svg';
 
 function Profile() {
   const history = useHistory();
@@ -11,9 +13,13 @@ function Profile() {
     history.push('/');
   };
   return (
-    <div>
-
-      <Header title="Profile" withSearchBar={ false } />
+    <div className="profileContainer">
+      <Header
+        title="Profile"
+        showTitle
+        titleIcon={ profileIcon }
+        withSearchBar={ false }
+      />
       <span
         data-testid="profile-email"
       >

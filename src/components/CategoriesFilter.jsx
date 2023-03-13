@@ -3,21 +3,39 @@ import React, { useContext, useEffect, useState } from 'react';
 import RecipesContext from '../context/recipesContext';
 import apiFetch from '../helpers/apiFetch';
 import Buttons from './Buttons';
-import beefIcon from '../assets/svg/beef.svg';
-import goatIcon from '../assets/svg/goat.svg';
-import chickenIcon from '../assets/svg/chicken.svg';
-import breakfastIcon from '../assets/svg/breakfast.svg';
-import dessertIcon from '../assets/svg/dessert.svg';
-import allIcon from '../assets/svg/allIcon.svg';
+import beefIcon from '../assets/svg/Meals/beef.svg';
+import goatIcon from '../assets/svg/Meals/goat.svg';
+import chickenIcon from '../assets/svg/Meals/chicken.svg';
+import breakfastIcon from '../assets/svg/Meals/breakfast.svg';
+import dessertIcon from '../assets/svg/Meals/dessert.svg';
+import allMeals from '../assets/svg/Meals/allIcon.svg';
+import shakeIcon from '../assets/svg/Drinks/shake.svg';
+import cocktailIcon from '../assets/svg/Drinks/cocktail.svg';
+import cocoaIcon from '../assets/svg/Drinks/cocoa.svg';
+import otherIcon from '../assets/svg/Drinks/other.svg';
+import ordinaryIcon from '../assets/svg/Drinks/ordinary.svg';
+import allDrinks from '../assets/svg/Drinks/allIconDrinks.svg';
+
 import '../styles/components/CategoriesFilter.sass';
 
 const icons = {
-  Beef: beefIcon,
-  Goat: goatIcon,
-  Chicken: chickenIcon,
-  Breakfast: breakfastIcon,
-  Dessert: dessertIcon,
-  All: allIcon,
+  meals: {
+    Beef: beefIcon,
+    Goat: goatIcon,
+    Chicken: chickenIcon,
+    Breakfast: breakfastIcon,
+    Dessert: dessertIcon,
+    All: allMeals,
+  },
+  drinks: {
+    Shake: shakeIcon,
+    Cocktail: cocktailIcon,
+    Cocoa: cocoaIcon,
+    'Other / Unknown': otherIcon,
+    'Ordinary Drink': ordinaryIcon,
+    All: allDrinks,
+  },
+
 };
 
 function CategoriesFilter({ apiType, pageName }) {
@@ -82,7 +100,7 @@ function CategoriesFilter({ apiType, pageName }) {
         labelText="All"
         dataTestid="All-category-filter"
         onClick={ () => handleClick('All') }
-        icon={ icons.All }
+        icon={ icons[pageName].All }
         btnClass={ `categoryBtn ${categoryFilter === '' ? 'Selected' : ''}` }
       />
 
@@ -90,10 +108,10 @@ function CategoriesFilter({ apiType, pageName }) {
         <Buttons
           key={ category }
           category={ category }
-          labelText={ category }
+          labelText={ category.split(' ')[0] }
           dataTestid={ `${category}-category-filter` }
           onClick={ () => handleClick(category) }
-          icon={ icons[category] }
+          icon={ icons[pageName][category] }
           btnClass={ `categoryBtn ${categoryFilter === category ? 'Selected' : ''}` }
         />
       ))}

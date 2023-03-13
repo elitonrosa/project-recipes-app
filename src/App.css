@@ -14,25 +14,16 @@ html {
   width: 100%;
 }
 
-.recipe-img {
-  max-height: 150px;
-}
-
 .doneCards-img {
   max-height: 150px;
 }
 
 body {
-  background-color: rgb(121, 121, 121);
-  color: white;
+  background-color: #18181b;
   font-size: 1.6rem;
   padding-bottom: 50px;
   width: 100%;
   max-width: 100vw;
-}
-
-.page-title {
-  display: none;
 }
 
 .risco {

@@ -7,7 +7,13 @@ import SearchBar from './SearchBar';
 import '../styles/components/Header.sass';
 import logo from '../assets/svg/smallLogo.svg';
 
-function Header({ title, withProfileIcon = true, withSearchBar = true }) {
+function Header({
+  title,
+  titleIcon,
+  showTitle = false,
+  withProfileIcon = true,
+  withSearchBar = true,
+}) {
   const profileLink = '/profile';
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -29,7 +35,7 @@ function Header({ title, withProfileIcon = true, withSearchBar = true }) {
 
         </Link>
         <div className="profileContainer">
-          <h1 data-testid="page-title" className="page-title">{title}</h1>
+
           {withSearchBar
       && (
         <div>
@@ -51,7 +57,16 @@ function Header({ title, withProfileIcon = true, withSearchBar = true }) {
           )}
         </div>
       </div>
+      <div className="gap" />
       {showSearchBar && <SearchBar />}
+      <div style={ !showTitle ? { display: 'none' } : null } className="titleContainer">
+        <img src={ titleIcon } alt="title" />
+        <h1
+          data-testid="page-title"
+        >
+          {title}
+        </h1>
+      </div>
     </>
   );
 }

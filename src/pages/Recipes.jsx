@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import CategoriesFilter from '../components/CategoriesFilter';
 import RenderRecipes from '../components/RenderRecipes';
 import RecipesContext from '../context/recipesContext';
-import '../styles/pages/Foods.sass';
 
 function Recipes() {
   const { apiResponse, setApiResponse, setFilteredRecipes } = useContext(RecipesContext);
