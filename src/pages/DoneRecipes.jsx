@@ -11,11 +11,11 @@ function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
 
   const { pathname } = useLocation();
-  const [, baseURL] = String(window.location.href).split('//');
+  const [http, baseURL] = String(window.location.href).split('//');
 
   const handleShareClick = (type, id) => {
     const newPathname = `${type}s/${id}`;
-    const url = `${baseURL.replaceAll(pathname, '')}/${newPathname}`;
+    const url = `${http}//${baseURL.replaceAll(pathname, '')}/${newPathname}`;
     navigator.clipboard.writeText(url);
     setIsURLCopied(true);
     const THREE_THOUSAND = 3000;
