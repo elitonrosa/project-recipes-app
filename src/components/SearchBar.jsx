@@ -43,7 +43,7 @@ function SearchBar() {
     }
 
     const fullEndPoint = `${endpoint[searchRadio]}${searchInput}`;
-    if (searchInput && searchRadio) return fullEndPoint;
+    return (searchInput && searchRadio) && fullEndPoint;
   };
 
   const apiCall = async (endpoint) => {
@@ -70,10 +70,7 @@ function SearchBar() {
 
     if (response[page] === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      return;
-    }
-
-    if (response[page]) {
+    } else {
       const api = {
         ...apiResponse,
         [page]: response[page],

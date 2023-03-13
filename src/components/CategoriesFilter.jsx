@@ -61,9 +61,9 @@ function CategoriesFilter({ apiType, pageName }) {
 
   return (
     <div>
-      {categoryList.map((category) => (
+      {categoryList.map((category, index) => (
         <Buttons
-          key={ category }
+          key={ index }
           category={ category }
           labelText={ category }
           dataTestid={ `${category}-category-filter` }

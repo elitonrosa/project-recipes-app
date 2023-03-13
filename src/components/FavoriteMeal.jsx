@@ -4,34 +4,30 @@ import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function FavoriteMeal({ recipe, index = 0, onClick }) {
+function FavoriteMeal({ recipe, index, onClick }) {
   const [mensage, setMensage] = useState(false);
 
-  const currentType = 'meal';
-
-  const route = currentType.includes(recipe.type.toLowerCase()) ? '/meals' : '/drinks';
-
   const shareRecipe = () => {
-    try {
-      navigator.clipboard.writeText(`http://localhost:3000${route}/${recipe.id}`);
-    } catch (error) {
-      console.error(error);
-    }
+    navigator.clipboard.writeText(
+      `http://localhost:3000${recipe.type.toLowerCase()}s/${recipe.id}`,
+    );
     setMensage(true);
   };
 
   return (
     <div>
       <div>
-        <Link to={ `${route}/${recipe.id}` } style={ { textDecoration: 'none' } }>
+        <Link
+          to={ `${recipe.type.toLowerCase()}s/${recipe.id}` }
+          style={ { textDecoration: 'none' } }
+        >
           <img
             alt="foodpicture"
             src={ recipe.image }
             data-testid={ `${index}-horizontal-image` }
             className="doneCards-img"
-
           />
-          <h3 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h3>
+          <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
         </Link>
       </div>
       <p data-testid={ `${index}-horizontal-top-text` }>
@@ -49,7 +45,6 @@ function FavoriteMeal({ recipe, index = 0, onClick }) {
         src={ blackHeartIcon }
         data-testid={ `${index}-horizontal-favorite-btn` }
         onClick={ () => onClick(recipe.id) }
-
       >
         <img src={ blackHeartIcon } alt="Black heart icon" />
       </button>
@@ -58,15 +53,15 @@ function FavoriteMeal({ recipe, index = 0, onClick }) {
 }
 
 FavoriteMeal.propTypes = {
-  index: PropTypes.number,
+  index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
   recipe: PropTypes.shape({
-    id: PropTypes.string,
-    type: PropTypes.string,
     category: PropTypes.string,
+    id: PropTypes.string,
     image: PropTypes.string,
     name: PropTypes.string,
     nationality: PropTypes.string,
+    type: PropTypes.string,
   }).isRequired,
 };
 

@@ -9,7 +9,7 @@ import {
 
 import styles from '../styles/components/Carousel.module.css';
 
-import { MEALS, SIX } from '../services/constTypes';
+import { MEALS, SIX, ZERO } from '../services/constTypes';
 
 function Carousel({ pathname }) {
   const { data, isLoading } = useFetch(
@@ -17,9 +17,9 @@ function Carousel({ pathname }) {
   );
 
   return (
-    <div className={ styles.carouselContainer }>
-      {!isLoading && data.map((recommendation, index) => (
-        index < SIX && (
+    isLoading ? <p>Carregando...</p> : (
+      <div className={ styles.carouselContainer }>
+        {data.splice(ZERO, SIX).map((recommendation, index) => (
           <div
             key={ index }
             data-testid={ `${index}-recommendation-card` }
@@ -30,9 +30,9 @@ function Carousel({ pathname }) {
               {recommendation.title}
             </p>
           </div>
-        )
-      ))}
-    </div>
+        ))}
+      </div>
+    )
   );
 }
 
