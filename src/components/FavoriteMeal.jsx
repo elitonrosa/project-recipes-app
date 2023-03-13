@@ -1,15 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function FavoriteMeal({ recipe, index, onClick }) {
   const [mensage, setMensage] = useState(false);
 
+  const { pathname } = useLocation();
+  const [http, baseURL] = String(window.location.href).split('//');
+
   const shareRecipe = () => {
     navigator.clipboard.writeText(
-      `http://localhost:3000${recipe.type.toLowerCase()}s/${recipe.id}`,
+      `${http}//${baseURL.replaceAll(
+        pathname,
+        '',
+      )}/${recipe.type.toLowerCase()}s/${recipe.id}`,
     );
     setMensage(true);
   };
