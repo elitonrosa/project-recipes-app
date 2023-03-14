@@ -1,0 +1,86 @@
+.favoriteRecipeContainer
+  display: flex
+  background-color: #3f3f46
+  margin: 1.5rem
+  border-radius: 5px
+  width: 90vw
+
+  .favorite-link
+    max-height: 165px
+    max-width: 165px
+
+  .favorite-img
+    max-width: 165px
+    background: #fff
+    border-radius: 5px 0 0 5px
+
+  .favoriteRecipe
+    display: flex
+    flex-direction: column  
+    justify-content: center
+    align-items: flex-start
+    margin-left: 2.5rem
+    gap: 4rem
+
+    .favorite-name
+      font-size: 1.5rem
+      color: white
+    
+    .favorite-category
+      font-size: 1.2rem
+      color:  #c5c8cf
+    
+    .favoriteBtnContainer
+      display: flex
+      flex-direction: row
+      justify-content: center
+      align-items: center
+      gap: 1.5rem
+
+      button
+        background: none
+        border: none
+
+
+
+
+.favoriteMainPage
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  margin: 3rem 0
+  text-transform: uppercase
+  color: #41197f
+
+  .headerTitle
+    font-size: 0
+    &::after
+      content: 'Favorite'
+      font-size: 32px
+      letter-spacing: 0.1em
+
+
+.favoriteBtnsFilters
+  display: flex
+  flex-direction: row
+  width: 100%
+  justify-content: space-around
+  align-items: center
+  margin: 1.5rem 2rem
+
+  button
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    gap: 0.5rem
+    background: none
+    border: none
+    color: white
+    max-width: fit-content
+    img
+      width: 46px
+  
+.footerGap
+  padding-top: 1.5rem

@@ -63,6 +63,7 @@ function Header({
         <img src={ titleIcon } alt="title" className="titleIcon" />
         <h1
           data-testid="page-title"
+          className="headerTitle"
         >
           {title}
         </h1>

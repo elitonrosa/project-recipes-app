@@ -35,27 +35,25 @@ function RenderRecipes() {
   }, [filteredRecipes]);
 
   return (
-    <div className="test">
-      <div className="cardRecipeContainer">
-        {showRecipes.map((recipe, index) => (
-          <Link to={ `/${pageName}/${recipe[idType]}` } key={ index }>
-            <div
-              data-testid={ `${index}-recipe-card` }
-              className="cardRecipe"
-            >
-              <img
-                src={ recipe.strMealThumb || recipe.strDrinkThumb }
-                alt={ recipe.strMeal || recipe.strDrink }
-                className="recipe-img"
-                data-testid={ `${index}-card-img` }
-              />
-              <p data-testid={ `${index}-card-name` } className="recipe-name">
-                {recipe.strMeal || recipe.strDrink}
-              </p>
-            </div>
-          </Link>
-        ))}
-      </div>
+    <div className="cardRecipeContainer">
+      {showRecipes.map((recipe, index) => (
+        <Link to={ `/${pageName}/${recipe[idType]}` } key={ index }>
+          <div
+            data-testid={ `${index}-recipe-card` }
+            className="cardRecipe"
+          >
+            <img
+              src={ recipe.strMealThumb || recipe.strDrinkThumb }
+              alt={ recipe.strMeal || recipe.strDrink }
+              className="recipe-img"
+              data-testid={ `${index}-card-img` }
+            />
+            <p data-testid={ `${index}-card-name` } className="recipe-name">
+              {recipe.strMeal || recipe.strDrink}
+            </p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }
