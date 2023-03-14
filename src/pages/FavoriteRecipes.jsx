@@ -26,18 +26,12 @@ function FavoriteRecipes() {
   useEffect(() => {
     const getRecipes = () => {
       const recipes = favoritePromise();
-      switch (true) {
-      case favoriteFilters.all:
+      if (favoriteFilters.all) {
         setfavoriteArray(recipes);
-        break;
-      case favoriteFilters.meal:
+      } else if (favoriteFilters.meal) {
         setfavoriteArray(recipes.filter((recipe) => recipe.type === 'meal'));
-        break;
-      case favoriteFilters.drink:
+      } else {
         setfavoriteArray(recipes.filter((recipe) => recipe.type === 'drink'));
-        break;
-      default:
-        setfavoriteArray(recipes);
       }
     };
     getRecipes();

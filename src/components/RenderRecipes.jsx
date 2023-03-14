@@ -23,9 +23,7 @@ function RenderRecipes() {
     if (pageName === 'meals') {
       return 'idMeal';
     }
-    if (pageName === 'drinks') {
-      return 'idDrink';
-    }
+    return 'idDrink';
   };
 
   const idType = getIdType();

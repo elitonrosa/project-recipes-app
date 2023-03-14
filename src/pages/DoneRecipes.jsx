@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
-
-const FinishedRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+import { DONE_RECIPES } from '../services/constTypes';
+import { getFromLocalStorage } from '../services/localStorageHelpers';
 
 function DoneRecipes() {
   const [isURLCopied, setIsURLCopied] = useState(false);
   const [filteredDoneRecipes, setfilteredDoneRecipes] = useState([]);
+  const [doneRecipes, setDoneRecipes] = useState([]);
+
+  const { pathname } = useLocation();
+  const [http, baseURL] = String(window.location.href).split('//');
 
   const handleShareClick = (type, id) => {
     const newPathname = `${type}s/${id}`;
-    const url = `http://localhost:3000/${newPathname}`;
+    const url = `${http}//${baseURL.replaceAll(pathname, '')}/${newPathname}`;
     navigator.clipboard.writeText(url);
     setIsURLCopied(true);
     const THREE_THOUSAND = 3000;
@@ -19,22 +23,29 @@ function DoneRecipes() {
       setIsURLCopied(false);
     }, THREE_THOUSAND);
   };
+
   const handleFilterMeal = () => {
-    const meals = FinishedRecipes.filter((recipe) => recipe.type === 'meal');
+    const meals = doneRecipes.filter((recipe) => recipe.type === 'meal');
     setfilteredDoneRecipes(meals);
   };
 
   const handleFilterDrink = () => {
-    const drinks = FinishedRecipes.filter((recipe) => recipe.type === 'drink');
+    const drinks = doneRecipes.filter((recipe) => recipe.type === 'drink');
     setfilteredDoneRecipes(drinks);
   };
 
-  const handleFilterAll = () => {
-    setfilteredDoneRecipes(FinishedRecipes);
-  };
+  const handleFilterAll = useCallback(() => {
+    setfilteredDoneRecipes(doneRecipes);
+  }, [doneRecipes]);
+
   useEffect(() => {
-    setfilteredDoneRecipes(FinishedRecipes);
+    setDoneRecipes(getFromLocalStorage(DONE_RECIPES));
   }, []);
+
+  useEffect(() => {
+    setfilteredDoneRecipes(doneRecipes);
+  }, [doneRecipes]);
+
   return (
     <div>
       <Header title="Done Recipes" withSearchBar={ false } />
@@ -116,6 +127,7 @@ function DoneRecipes() {
                   type="button"
                   onClick={ () => handleShareClick(recipe.type, recipe.id) }
                   className="share-btn"
+                  data-testid={ `${index}-share-btn` }
                 >
                   <img
                     data-testid={ `${index}-horizontal-share-btn` }

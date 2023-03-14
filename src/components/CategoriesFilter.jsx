@@ -95,28 +95,27 @@ function CategoriesFilter({ apiType, pageName }) {
 
   return (
     <div className="categoriesContainer">
-      <Buttons
-        category="All"
-        labelText="All"
-        dataTestid="All-category-filter"
-        onClick={ () => handleClick('All') }
-        icon={ icons[pageName].All }
-        btnClass={ `categoryBtn ${categoryFilter === '' ? 'Selected' : ''}` }
-      />
-
-      {categoryList.map((category) => (
         <Buttons
-          key={ category }
-          category={ category }
-          labelText={ category.split(' ')[0] }
-          dataTestid={ `${category}-category-filter` }
-          onClick={ () => handleClick(category) }
-          icon={ icons[pageName][category] }
-          btnClass={ `categoryBtn ${categoryFilter === category ? 'Selected' : ''}` }
+          category="All"
+          labelText="All"
+          dataTestid="All-category-filter"
+          onClick={ () => handleClick('All') }
+          icon={ icons[pageName].All }
+          btnClass={ `categoryBtn ${categoryFilter === '' ? 'Selected' : ''}` }
         />
-      ))}
 
-    </div>
+        {categoryList.map((category) => (
+          <Buttons
+            key={ category }
+            category={ category }
+            labelText={ category.split(' ')[0] }
+            dataTestid={ `${category}-category-filter` }
+            onClick={ () => handleClick(category) }
+            icon={ icons[pageName][category] }
+            btnClass={ `categoryBtn ${categoryFilter === category ? 'Selected' : ''}` }
+          />
+        ))}
+      </div>
   );
 }
 

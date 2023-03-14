@@ -29,3 +29,4 @@ export const FAVORITE_BTN = 'favorite-btn';
 export const ERROR_MESSAGE = 'error-message';
 export const INSTRUCTIONS = 'instructions';
 export const VIDEO = 'video';
+export const BEEF_CATEGORY_FILTER = 'Beef-category-filter';

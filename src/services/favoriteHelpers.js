@@ -14,10 +14,8 @@ export const favoritePromise = () => {
 
 export const disfavor = (id) => {
   const currentFavoriteRecipes = readFavoriteRecipe();
-  console.log(currentFavoriteRecipes);
   const favoriteRecipes = currentFavoriteRecipes.filter(
     (each) => each.id !== id,
   );
-  console.log(favoriteRecipes);
   writeFavoriteRecipe(favoriteRecipes);
 };

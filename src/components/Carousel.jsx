@@ -9,7 +9,7 @@ import {
 
 import styles from '../styles/components/Carousel.module.sass';
 
-import { MEALS, SIX } from '../services/constTypes';
+import { MEALS, SIX, ZERO } from '../services/constTypes';
 
 function Carousel({ pathname }) {
   const { data, isLoading } = useFetch(

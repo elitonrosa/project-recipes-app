@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import { renderWithRouter } from './helpers/renderWithRouter';
 import Meals from '../pages/Meals';
 import Drinks from '../pages/Drinks';
@@ -25,7 +26,9 @@ describe('Testando o componente Meals', () => {
     });
 
     const showSearchBar = screen.getByTestId(showSearchBarId);
-    userEvent.click(showSearchBar);
+    await act(async () => {
+      userEvent.click(showSearchBar);
+    });
 
     const searchInput = screen.getByTestId(searchInputId);
     expect(searchInput).toBeInTheDocument();
@@ -36,14 +39,19 @@ describe('Testando o componente Meals', () => {
     const nameRadio = screen.getByTestId(nameRadioId);
     expect(nameRadio).toBeInTheDocument();
 
-    userEvent.type(searchInput, 'soup');
-    expect(searchInput.value).toEqual('soup');
+    await act(async () => {
+      userEvent.type(searchInput, 'soup');
+      expect(searchInput.value).toEqual('soup');
+    });
 
-    userEvent.click(nameRadio);
-    expect(nameRadio.checked).toEqual(true);
+    await act(async () => {
+      userEvent.click(nameRadio);
+      expect(nameRadio.checked).toEqual(true);
+    });
 
-    userEvent.click(execSearchBtn);
-
+    await act(async () => {
+      userEvent.click(execSearchBtn);
+    });
     expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=soup');
 
     const soupMeal = await screen.findByTestId('0-recipe-card');
