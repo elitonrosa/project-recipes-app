@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../styles/components/Favorite.sass';
+import Buttons from './Buttons';
 
 function FavoriteMeal({ recipe, index, onClick }) {
   const [mensage, setMensage] = useState(false);
@@ -21,39 +23,60 @@ function FavoriteMeal({ recipe, index, onClick }) {
   };
 
   return (
-    <div>
-      <div>
-        <Link
-          to={ `${recipe.type.toLowerCase()}s/${recipe.id}` }
-          style={ { textDecoration: 'none' } }
-        >
-          <img
-            alt="foodpicture"
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            className="doneCards-img"
+    <div className="favoriteRecipeContainer">
+      <Link
+        to={ `${route}/${recipe.id}` }
+        style={ { textDecoration: 'none' } }
+        className="favorite-link"
+      >
+        <img
+          alt="foodpicture"
+          src={ recipe.image }
+          data-testid={ `${index}-horizontal-image` }
+          className="favorite-img"
+        />
+
+      </Link>
+
+      <div className="favoriteRecipe">
+
+        <div>
+          <Link
+            to={ `${route}/${recipe.id}` }
+            style={ { textDecoration: 'none' } }
+            className="favorite-link"
+          >
+            <p
+              data-testid={ `${index}-horizontal-name` }
+              className="favorite-name"
+            >
+              { recipe.name }
+            </p>
+          </Link>
+
+          <span
+            data-testid={ `${index}-horizontal-top-text` }
+            className="favorite-category"
+          >
+            {`${recipe.nationality} - ${recipe.category}`}
+          </span>
+        </div>
+
+        <div className="favoriteBtnContainer">
+          <Buttons
+            dataTestid={ `${index}-horizontal-share-btn` }
+            onClick={ shareRecipe }
+            icon={ shareIcon }
           />
-          <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
-        </Link>
+
+          <Buttons
+            dataTestid={ `${index}-horizontal-favorite-btn` }
+            onClick={ () => onClick(recipe.id) }
+            icon={ blackHeartIcon }
+          />
+          {mensage && <p>Link copied!</p>}
+        </div>
       </div>
-      <p data-testid={ `${index}-horizontal-top-text` }>
-        {`${recipe.nationality} - ${recipe.category}`}
-      </p>
-      <button
-        src={ shareIcon }
-        data-testid={ `${index}-horizontal-share-btn` }
-        onClick={ shareRecipe }
-      >
-        <img src={ shareIcon } alt="Share icon" />
-      </button>
-      {mensage && <p>Link copied!</p>}
-      <button
-        src={ blackHeartIcon }
-        data-testid={ `${index}-horizontal-favorite-btn` }
-        onClick={ () => onClick(recipe.id) }
-      >
-        <img src={ blackHeartIcon } alt="Black heart icon" />
-      </button>
     </div>
   );
 }
