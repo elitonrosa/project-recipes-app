@@ -30,7 +30,7 @@ function FavoriteMeal({ recipe, index, onClick }) {
         className="favorite-link"
       >
         <img
-          alt="foodpicture"
+          alt={ recipe.name }
           src={ recipe.image }
           data-testid={ `${index}-horizontal-image` }
           className="favorite-img"

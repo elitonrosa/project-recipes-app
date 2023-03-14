@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Buttons from '../components/Buttons';
 import Inputs from '../components/Inputs';
@@ -6,35 +6,24 @@ import useFetch from '../hooks/useFetch';
 import { getDrinkByID, getMealByID } from '../services/fetchFunctions';
 import {
   getFromLocalStorage,
-  manageFavoritesInLocalStorage,
   setDoneRecipeInLocalStorage,
   setInProgressToLocalStorage,
 } from '../services/localStorageHelpers';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../styles/pages/RecipeInProgress.sass';
-import leftArrow from '../assets/svg/arrowLeft.svg';
 
 import {
   DRINK,
   ERROR_MESSAGE,
-  FAVORITE_BTN,
-  FAVORITE_RECIPES,
   FINISH_RECIPE_BTN,
   INSTRUCTIONS,
   MEAL,
   MEALS,
-  RECIPE_CATEGORY,
-  RECIPE_PHOTO,
-  RECIPE_TITLE,
-  SHARE_BTN,
   IN_PROGRESS_RECIPES,
-  TWO_THOUSAND,
 } from '../services/constTypes';
+import HeaderRecipes from '../components/HeaderRecipes';
 
 function RecipeInProgress() {
-  const [, pathname, id, pageStatus] = useLocation().pathname.split('/');
+  const [, pathname, id] = useLocation().pathname.split('/');
   const history = useHistory();
   const {
     data: {
@@ -48,39 +37,14 @@ function RecipeInProgress() {
       strArea,
       strTags,
     },
+    data,
     isLoading,
     error,
   } = useFetch(pathname === MEALS ? getMealByID : getDrinkByID, id);
 
-  const [recipeFavorite, setRecipeFavorite] = useState(false);
   const [isURLCopied, setIsURLCopied] = useState(false);
   const [completed, setCompleted] = useState({});
   const [disableButton, setDisableButton] = useState(true);
-
-  const isFavorite = useCallback(
-    () => getFromLocalStorage(FAVORITE_RECIPES).some((recipe) => recipe.id === id),
-    [id],
-  );
-
-  useEffect(() => {
-    setRecipeFavorite(isFavorite);
-  }, [isFavorite]);
-
-  const favoriteRecipe = () => {
-    manageFavoritesInLocalStorage(FAVORITE_RECIPES, {
-      id,
-      type:
-        pathname === MEALS
-          ? MEAL.toLocaleLowerCase()
-          : DRINK.toLocaleLowerCase(),
-      nationality: strArea || '',
-      category,
-      alcoholicOrNot: alcoholic || '',
-      name: title,
-      image,
-    });
-    setRecipeFavorite(isFavorite);
-  };
 
   const isRecipeInProgress = !!getFromLocalStorage(IN_PROGRESS_RECIPES)[pathname]
     && !!getFromLocalStorage(IN_PROGRESS_RECIPES)[pathname][id];
@@ -111,16 +75,6 @@ function RecipeInProgress() {
     }
   }, [isAllChecked, completed]);
 
-  const urlToClipboard = () => {
-    navigator.clipboard.writeText(
-      String(window.location.href).replace(`/${pageStatus}`, ''),
-    );
-    setIsURLCopied(true);
-    setTimeout(() => {
-      setIsURLCopied(false);
-    }, TWO_THOUSAND);
-  };
-
   const onClickFinish = () => {
     setDoneRecipeInLocalStorage({
       id,
@@ -138,63 +92,22 @@ function RecipeInProgress() {
     });
     history.push('/done-recipes');
   };
-  const goBackPage = () => history.goBack();
 
   return (
     <div className="progressPage">
       {isLoading ? (
-        <p>Carregando...</p>
+        <div className="loading-div">
+          <span className="loader" />
+        </div>
       ) : (
         <div className="progressContainer">
           {error ? (
             <p data-testid={ ERROR_MESSAGE }>Erro</p>
           ) : (
             <>
-              <div className="topPage">
-                <img
-                  src={ image }
-                  alt="Imagem da Receita"
-                  width="200"
-                  data-testid={ RECIPE_PHOTO }
-                  className="recipeImage"
-                />
-                <h1
-                  data-testid={ RECIPE_TITLE }
-                  className="recipeTitle"
-                >
-                  {title}
-                </h1>
-                <p
-                  data-testid={ RECIPE_CATEGORY }
-                  className="recipeCategory"
-                >
-                  {category}
-                  {' '}
-                  {alcoholic}
-                </p>
-                <div className="btnContainer">
-                  <Buttons
-                    type="button"
-                    icon={ leftArrow }
-                    onClick={ goBackPage }
-                    labelText="Back"
-                  />
-                  <Buttons
-                    type="button"
-                    dataTestid={ SHARE_BTN }
-                    icon={ shareIcon }
-                    onClick={ urlToClipboard }
-                  />
-                  <Buttons
-                    type="button"
-                    dataTestid={ FAVORITE_BTN }
-                    icon={ recipeFavorite ? blackHeartIcon : whiteHeartIcon }
-                    onClick={ favoriteRecipe }
-                  />
-                </div>
-              </div>
+              <HeaderRecipes { ...data } setIsURLCopied={ setIsURLCopied } />
               <div className="instructionsContainer">
-                <p>Instructions</p>
+                <h2>Instructions</h2>
                 <p
                   data-testid={ INSTRUCTIONS }
                   className="instructions"
@@ -203,7 +116,7 @@ function RecipeInProgress() {
                 </p>
               </div>
               <div className="ingredientsContainer">
-                <p>Ingredients</p>
+                <h2>Ingredients</h2>
                 <ul data-testid="ingredients-ul" className="ingredients">
                   {ingredients.map((ingredient, index) => (
                     <li
