@@ -25,7 +25,7 @@ function FavoriteMeal({ recipe, index, onClick }) {
   return (
     <div className="favoriteRecipeContainer">
       <Link
-        to={ `${route}/${recipe.id}` }
+        to={ `meals/${recipe.id}` }
         style={ { textDecoration: 'none' } }
         className="favorite-link"
       >
@@ -42,7 +42,7 @@ function FavoriteMeal({ recipe, index, onClick }) {
 
         <div>
           <Link
-            to={ `${route}/${recipe.id}` }
+            to={ `meals/${recipe.id}` }
             style={ { textDecoration: 'none' } }
             className="favorite-link"
           >

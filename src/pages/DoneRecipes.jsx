@@ -5,6 +5,14 @@ import shareIcon from '../images/shareIcon.svg';
 import { DONE_RECIPES } from '../services/constTypes';
 import { getFromLocalStorage } from '../services/localStorageHelpers';
 
+import allTypes from '../assets/svg/allFoods.svg';
+import mealTypes from '../assets/svg/Meals/allIcon.svg';
+import drinkTypes from '../assets/svg/Drinks/allIconDrinks.svg';
+import doneIcon from '../assets/svg/Profile/checkIcon.svg';
+import Buttons from '../components/Buttons';
+import '../styles/pages/DoneRecipes.sass';
+import Footer from '../components/Footer';
+
 function DoneRecipes() {
   const [isURLCopied, setIsURLCopied] = useState(false);
   const [filteredDoneRecipes, setfilteredDoneRecipes] = useState([]);
@@ -47,104 +55,120 @@ function DoneRecipes() {
   }, [doneRecipes]);
 
   return (
-    <div>
-      <Header title="Done Recipes" withSearchBar={ false } />
-      <div className="done-container">
-        <div className="header-btns">
-          <button
-            data-testid="filter-by-all-btn"
-            type="button"
-            onClick={ () => handleFilterAll() }
-          >
-            All
-          </button>
-          <button
-            data-testid="filter-by-meal-btn"
-            type="button"
-            onClick={ () => handleFilterMeal() }
-          >
-            Meals
-          </button>
-          <button
-            data-testid="filter-by-drink-btn"
-            type="button"
-            onClick={ () => handleFilterDrink() }
-          >
-            Drinks
-          </button>
-        </div>
-        <div className="done-cards">
-          {filteredDoneRecipes && filteredDoneRecipes.map((recipe, index) => (
-            <div key={ index }>
-              <Link to={ `/${recipe.type}s/${recipe.id}` }>
-                <div>
-                  <img
-                    data-testid={ `${index}-horizontal-image` }
-                    src={ recipe.image }
-                    alt={ recipe.name }
-                    className="doneCards-img"
-                  />
-                </div>
-              </Link>
+    <div className="doneMainPage">
+      <Header
+        title="Done Recipes"
+        showTitle
+        titleIcon={ doneIcon }
+        withSearchBar={ false }
+      />
 
-              <div className="doneCards-descriptions">
-                <h3 data-testid={ `${index}-horizontal-top-text` }>
-                  {recipe.alcoholicOrNot}
-                </h3>
+      <div className="doneBtnsFilters">
+        <Buttons
+          dataTestid="filter-by-all-btn"
+          onClick={ () => handleFilterAll() }
+          labelText="All"
+          icon={ allTypes }
+        />
 
-                <Link to={ `/${recipe.type}s/${recipe.id}` }>
-                  <h2 data-testid={ `${index}-horizontal-name` }>
-                    {`Name: ${recipe.name}`}
+        <Buttons
+          dataTestid="filter-by-meal-btn"
+          onClick={ () => handleFilterMeal() }
+          labelText="Meals"
+          icon={ mealTypes }
+        />
 
-                  </h2>
-                </Link>
-                <h3 data-testid={ `${index}-horizontal-top-text` }>
-                  {`Category-nationality: ${recipe.nationality} - ${recipe.category}`}
-                </h3>
-                <h3 data-testid={ `${index}-horizontal-done-date` }>
-                  {`Done in : ${recipe.doneDate}`}
-                </h3>
-                {
-                  recipe.type === 'meal' && (
-                    recipe.tags && recipe.tags.length > 0 && (
-                      <h3 data-testid={ `${index}-horizontal-tag` }>
-                        {
-                          recipe.tags.map((tag, indexTag) => (
-                            <span
-                              key={ indexTag }
-                              data-testid={ `${index}-${tag}-horizontal-tag` }
-                            >
-                              {tag}
-                              {indexTag < recipe.tags.length - 1 && ', '}
-                            </span>
-                          ))
-                        }
-                      </h3>
-                    )
-                  )
-                }
-                <button
-                  type="button"
-                  onClick={ () => handleShareClick(recipe.type, recipe.id) }
-                  className="share-btn"
-                  data-testid={ `${index}-share-btn` }
-                >
-                  <img
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    src={ shareIcon }
-                    alt="Compartilhar"
-                  />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Buttons
+          dataTestid="filter-by-drink-btn"
+          onClick={ () => handleFilterDrink() }
+          labelText="Drinks"
+          icon={ drinkTypes }
+        />
+
       </div>
+      <div className="doneCardsContainer">
+        {filteredDoneRecipes && filteredDoneRecipes.map((recipe, index) => (
+          <div key={ index } className="doneCard">
+            <Link
+              to={ `/${recipe.type}s/${recipe.id}` }
+              className="done-link"
+            >
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ recipe.image }
+                alt={ recipe.name }
+                className="doneCard-img"
+              />
+            </Link>
+
+            <div className="doneCards-descriptions">
+              <div className="nameContainer">
+                <Link
+                  to={ `/${recipe.type}s/${recipe.id}` }
+                  className="done-link"
+                >
+                  <p data-testid={ `${index}-horizontal-name` }>
+                    {recipe.name}
+                  </p>
+                </Link>
+                <div>
+                  <span
+                    data-testid={ `${index}-horizontal-top-text` }
+                  >
+                    {recipe.alcoholicOrNot}
+                  </span>
+                </div>
+              </div>
+
+              <span data-testid={ `${index}-horizontal-top-text` }>
+                {`
+                ${recipe.nationality ? `${recipe.nationality} -` : ''}${recipe.category}`}
+              </span>
+              {
+                recipe.type === 'meal' && (
+                  recipe.tags && recipe.tags.length > 0 && (
+                    <h3 data-testid={ `${index}-horizontal-tag` }>
+                      {
+                        recipe.tags.map((tag, indexTag) => (
+                          <span
+                            key={ indexTag }
+                            data-testid={ `${index}-${tag}-horizontal-tag` }
+                          >
+                            {tag}
+                            {indexTag < recipe.tags.length - 1 && ', '}
+                          </span>
+                        ))
+                      }
+                    </h3>
+                  )
+                )
+              }
+
+              <span
+                data-testid={ `${index}-horizontal-done-date` }
+                className="doneCard-date"
+              >
+                {recipe.doneDate}
+              </span>
+
+              <Buttons
+                dataTestid={ `${index}-share-btn` }
+                onClick={ () => handleShareClick(recipe.type, recipe.id) }
+                icon={ shareIcon }
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
       {isURLCopied && (
         <div>
           <p>Link copied!</p>
         </div>
       )}
+      <div className="footerGap">
+        <Footer />
+      </div>
     </div>
   );
 }
