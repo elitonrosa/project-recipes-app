@@ -20,6 +20,7 @@ import {
   START_RECIPE_BTN,
   VIDEO,
 } from '../services/constTypes';
+import ClipboardModal from '../components/ClipboardModal';
 
 function RecipeDetails() {
   const [isURLCopied, setIsURLCopied] = useState(false);
@@ -75,9 +76,7 @@ function RecipeDetails() {
             </div>
           )}
           {isURLCopied && (
-            <div>
-              <p>Link copied!</p>
-            </div>
+            <ClipboardModal />
           )}
           <div>
             <Carousel pathname={ pathname } />

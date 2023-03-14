@@ -12,6 +12,7 @@ import doneIcon from '../assets/svg/Profile/checkIcon.svg';
 import Buttons from '../components/Buttons';
 import '../styles/pages/DoneRecipes.sass';
 import Footer from '../components/Footer';
+import ClipboardModal from '../components/ClipboardModal';
 
 function DoneRecipes() {
   const [isURLCopied, setIsURLCopied] = useState(false);
@@ -160,11 +161,8 @@ function DoneRecipes() {
           </div>
         ))}
       </div>
-
       {isURLCopied && (
-        <div>
-          <p>Link copied!</p>
-        </div>
+        <ClipboardModal />
       )}
       <div className="footerGap">
         <Footer />

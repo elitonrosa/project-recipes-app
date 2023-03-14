@@ -5,9 +5,11 @@ import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../styles/components/Favorite.sass';
 import Buttons from './Buttons';
+import ClipboardModal from './ClipboardModal';
+import { TWO_THOUSAND } from '../services/constTypes';
 
 function FavoriteDrink({ recipe, index, onClick }) {
-  const [mensage, setMensage] = useState(false);
+  const [isURLCopied, setIsURLCopied] = useState(false);
 
   const { pathname } = useLocation();
   const [http, baseURL] = String(window.location.href).split('//');
@@ -19,7 +21,10 @@ function FavoriteDrink({ recipe, index, onClick }) {
         '',
       )}/${recipe.type.toLowerCase()}s/${recipe.id}`,
     );
-    setMensage(true);
+    setIsURLCopied(true);
+    setTimeout(() => {
+      setIsURLCopied(false);
+    }, TWO_THOUSAND);
   };
 
   return (
@@ -74,10 +79,12 @@ function FavoriteDrink({ recipe, index, onClick }) {
             onClick={ () => onClick(recipe.id) }
             icon={ blackHeartIcon }
           />
-          {mensage && <p>Link copied!</p>}
 
         </div>
       </div>
+      {isURLCopied && (
+        <ClipboardModal />
+      )}
     </div>
   );
 }

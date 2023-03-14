@@ -21,6 +21,7 @@ import {
   IN_PROGRESS_RECIPES,
 } from '../services/constTypes';
 import HeaderRecipes from '../components/HeaderRecipes';
+import ClipboardModal from '../components/ClipboardModal';
 
 function RecipeInProgress() {
   const [, pathname, id] = useLocation().pathname.split('/');
@@ -107,9 +108,7 @@ function RecipeInProgress() {
             <>
               <HeaderRecipes { ...data } setIsURLCopied={ setIsURLCopied } />
               {isURLCopied && (
-                <div>
-                  <p>Link copied!</p>
-                </div>
+                <ClipboardModal />
               )}
               <div className="instructionsContainer">
                 <h2>Instructions</h2>

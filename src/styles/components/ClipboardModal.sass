@@ -1,0 +1,47 @@
+.clipboardModal
+    position: fixed
+    z-index: 10
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: rgba(0, 0, 0, 0.5 )
+    transition: opacity 0.3s ease-in-out
+    animation: fadeIn 0.3s ease-in-out forwards
+
+    @keyframes fadeIn
+      0%
+        opacity: 0
+      100%
+        opacity: 1 
+
+    .messageContainer
+      width: 60vw
+      height: 45vw
+      background-color: #18181B
+      border: 1px solid #FCC436
+      border-radius: 5px
+      display: flex
+      gap: 20px
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+      p
+        font-size: 1.8rem
+        font-weight: bold
+        color: #fff !important
+
+.fadeOut
+    animation: fadeOut 0.3s ease-in-out forwards
+
+    @keyframes fadeOut
+      0%
+        opacity: 1
+      100%
+        opacity: 0 
+
+
