@@ -1,0 +1,93 @@
+.doneMainPage
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  text-transform: uppercase
+  color: #41197f
+  padding-bottom: 1.5rem
+
+  .doneCardsContainer
+    display: flex
+    flex-direction: column
+    width: 90vw
+    gap: 1.5rem
+
+    
+    .doneCard
+      display: flex
+      flex-direction: row
+      
+      align-items: center
+      gap: 1.5rem
+      background-color: #3f3f46
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4)
+      border-radius: 5px
+      color: white
+      position: relative
+      width: 90vw
+
+
+      button
+        position: absolute
+        top: 1rem
+        right: 1rem
+        background: none
+        border: none
+
+      .doneCards-descriptions
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: flex-start
+        margin-left: 1rem
+        gap: 1rem
+        font-size: 1.5rem
+        .nameContainer
+          margin-bottom: 1.2rem  
+          font-weight: bold
+
+        span
+          font-size: 1.2rem
+          color:  #c5c8cf
+        .doneCard-date
+          font-size: .9rem
+          color:  #c5c8cf
+
+      .doneCard-img
+        max-width: 165px
+        border-radius: 5px 0 0 5px
+        filter: brightness(0.8)
+
+  
+  .doneBtnsFilters
+    display: flex
+    flex-direction: row
+    width: 100%
+    justify-content: space-around
+    align-items: center
+    margin: 1.5rem 2rem
+
+    button
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      gap: 0.5rem
+      background: none
+      border: none
+      color: white
+      max-width: fit-content
+      img
+        width: 46px
+
+    
+
+.footerGap
+  padding-top: 4rem
+  width: 100%
+
+
+.done-link
+  max-height: 165px
+  max-width: 165px

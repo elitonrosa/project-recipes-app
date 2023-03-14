@@ -51,61 +51,59 @@ function FavoriteRecipes() {
   };
 
   return (
-    <>
-      <div className="favoriteMainPage">
-        <Header
-          title="Favorite Recipes"
-          showTitle
-          titleIcon={ favoriteIcon }
-          withSearchBar={ false }
+    <div className="favoriteMainPage">
+      <Header
+        title="Favorite Recipes"
+        showTitle
+        titleIcon={ favoriteIcon }
+        withSearchBar={ false }
+      />
+      <div className="favoriteBtnsFilters">
+        <Buttons
+          dataTestid="filter-by-all-btn"
+          onClick={ () => handleFilter('all') }
+          labelText="All"
+          icon={ allTypes }
         />
-        <div className="favoriteBtnsFilters">
-          <Buttons
-            dataTestid="filter-by-all-btn"
-            onClick={ () => handleFilter('all') }
-            labelText="All"
-            icon={ allTypes }
-          />
-          <Buttons
-            dataTestid="filter-by-meal-btn"
-            onClick={ () => handleFilter('meal') }
-            labelText="Meals"
-            icon={ mealTypes }
-          />
-          <Buttons
-            dataTestid="filter-by-drink-btn"
-            onClick={ () => handleFilter('drink') }
-            labelText="Drinks"
-            icon={ drinkTypes }
-          />
+        <Buttons
+          dataTestid="filter-by-meal-btn"
+          onClick={ () => handleFilter('meal') }
+          labelText="Meals"
+          icon={ mealTypes }
+        />
+        <Buttons
+          dataTestid="filter-by-drink-btn"
+          onClick={ () => handleFilter('drink') }
+          labelText="Drinks"
+          icon={ drinkTypes }
+        />
 
-        </div>
-        <div>
-          {favoriteArray.map((recipes, index) => (
-            recipes.type === 'meal'
-              ? (
-                <FavoriteMeal
-                  recipe={ recipes }
-                  index={ index }
-                  key={ index }
-                  onClick={ remove }
-                />
-              )
-              : (
-                <FavoriteDrink
-                  recipe={ recipes }
-                  index={ index }
-                  key={ index }
-                  onClick={ remove }
-                />
-              )
-          ))}
-        </div>
+      </div>
+      <div>
+        {favoriteArray.map((recipes, index) => (
+          recipes.type === 'meal'
+            ? (
+              <FavoriteMeal
+                recipe={ recipes }
+                index={ index }
+                key={ index }
+                onClick={ remove }
+              />
+            )
+            : (
+              <FavoriteDrink
+                recipe={ recipes }
+                index={ index }
+                key={ index }
+                onClick={ remove }
+              />
+            )
+        ))}
       </div>
       <div className="footerGap">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
 
