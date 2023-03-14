@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 import Buttons from '../components/Buttons';
 import Carousel from '../components/Carousel';
-import Header from '../components/Header';
 
 import useFetch from '../hooks/useFetch';
 import { getDrinkByID, getMealByID } from '../services/fetchFunctions';
@@ -15,6 +14,8 @@ import {
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import allMeals from '../assets/svg/Meals/allIcon.svg';
+import allDrinks from '../assets/svg/Drinks/allIconDrinks.svg';
 
 import styles from '../styles/pages/RecipeDetails.module.sass';
 
@@ -99,57 +100,35 @@ function RecipeDetails() {
     }, TWO_THOUSAND);
   };
 
-  return (
-    <>
-      <Header />
-      {isLoading ? (
-        <p>Carregando...</p>
+  return isLoading ? (
+    <p>Carregando...</p>
+  ) : (
+    <div>
+      {error ? (
+        <p data-testid={ ERROR_MESSAGE }>Erro</p>
       ) : (
-        <div>
-          {error ? (
-            <p data-testid={ ERROR_MESSAGE }>Erro</p>
-          ) : (
-            <div className={ styles.mainContainer }>
-              <img
-                className={ styles.recipeImage }
-                src={ image }
-                alt="Imagem da Receita"
-                width="200"
-                data-testid={ RECIPE_PHOTO }
-              />
-              <h1 data-testid={ RECIPE_TITLE }>{title}</h1>
-              <p data-testid={ RECIPE_CATEGORY }>
-                Categories:
-                {' '}
-                {category}
-                {' '}
-                {alcoholic}
-              </p>
-              <p data-testid={ INSTRUCTIONS }>{instructions}</p>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Ingredient</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                {ingredients && (
-                  <tbody>
-                    {ingredients.map((ingredient, index) => (
-                      <tr
-                        key={ ingredient }
-                        data-testid={ `${index}-ingredient-name-and-measure` }
-                      >
-                        <td>{ingredient}</td>
-                        <td>{measures[index] ?? '-'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                )}
-              </table>
-              {video && (
-                <iframe data-testid={ VIDEO } title="Youtube Video" src={ video } />
-              )}
+        <div className={ styles.mainContainer }>
+          <div className={ styles.headerContainer }>
+            <img
+              className={ styles.recipeImage }
+              src={ image }
+              alt="Imagem da Receita"
+              width="200"
+              data-testid={ RECIPE_PHOTO }
+            />
+            <div className={ styles.headerContent }>
+              <div>
+                <img
+                  className="categoryIcon"
+                  src={ pathname === MEALS ? allMeals : allDrinks }
+                  alt="category icon"
+                />
+                <p data-testid={ RECIPE_CATEGORY }>
+                  {category}
+                  {' '}
+                  {alcoholic}
+                </p>
+              </div>
               <div>
                 <Buttons
                   type="button"
@@ -164,32 +143,55 @@ function RecipeDetails() {
                   onClick={ favoriteRecipe }
                 />
               </div>
-              {isURLCopied && (
-                <div>
-                  <p>Link copied!</p>
-                </div>
-              )}
-              <div>
-                <p>Recommendations: </p>
-                <Carousel pathname={ pathname } />
-              </div>
-              {!showButton && (
-                <Link to={ `/${pathname}/${id}/in-progress` }>
-                  <Buttons
-                    type="button"
-                    labelText={
-                      isRecipeInProgress ? 'Continue Recipe' : 'Start Recipe'
-                    }
-                    dataTestid={ START_RECIPE_BTN }
-                    btnClass="btnRecipe"
-                  />
-                </Link>
-              )}
             </div>
+            <h1 data-testid={ RECIPE_TITLE }>{title}</h1>
+          </div>
+          <div className={ styles.ingredientsContainer }>
+            <h2>Ingredients</h2>
+            <ul data-testid="ingredients-ul">
+              {ingredients.map((ingredient, index) => (
+                <li
+                  key={ ingredient }
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                >
+                  { `${ingredient} - ${measures[index]}` }
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className={ styles.instructionsContainer }>
+            <h2>Instructions</h2>
+            <p data-testid={ INSTRUCTIONS }>{instructions}</p>
+          </div>
+          {video && (
+            <div className={ styles.videoContainer }>
+              <h2>Video</h2>
+              <iframe data-testid={ VIDEO } title="Youtube Video" src={ video } />
+            </div>
+          )}
+          {isURLCopied && (
+            <div>
+              <p>Link copied!</p>
+            </div>
+          )}
+          <div>
+            <Carousel pathname={ pathname } />
+          </div>
+          {!showButton && (
+            <Link to={ `/${pathname}/${id}/in-progress` }>
+              <Buttons
+                type="button"
+                labelText={
+                  isRecipeInProgress ? 'Continue Recipe' : 'Start Recipe'
+                }
+                dataTestid={ START_RECIPE_BTN }
+                btnClass={ styles.btnRecipe }
+              />
+            </Link>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
