@@ -25,12 +25,12 @@ function FavoriteMeal({ recipe, index, onClick }) {
   return (
     <div className="favoriteRecipeContainer">
       <Link
-        to={ `${route}/${recipe.id}` }
+        to={ `meals/${recipe.id}` }
         style={ { textDecoration: 'none' } }
         className="favorite-link"
       >
         <img
-          alt="foodpicture"
+          alt={ recipe.name }
           src={ recipe.image }
           data-testid={ `${index}-horizontal-image` }
           className="favorite-img"
@@ -42,7 +42,7 @@ function FavoriteMeal({ recipe, index, onClick }) {
 
         <div>
           <Link
-            to={ `${route}/${recipe.id}` }
+            to={ `meals/${recipe.id}` }
             style={ { textDecoration: 'none' } }
             className="favorite-link"
           >

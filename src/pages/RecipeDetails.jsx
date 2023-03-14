@@ -1,61 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Buttons from '../components/Buttons';
 import Carousel from '../components/Carousel';
+import HeaderRecipes from '../components/HeaderRecipes';
 
 import useFetch from '../hooks/useFetch';
 import { getDrinkByID, getMealByID } from '../services/fetchFunctions';
-import {
-  getFromLocalStorage,
-  manageFavoritesInLocalStorage,
-} from '../services/localStorageHelpers';
-
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import allMeals from '../assets/svg/Meals/allIcon.svg';
-import allDrinks from '../assets/svg/Drinks/allIconDrinks.svg';
+import { getFromLocalStorage } from '../services/localStorageHelpers';
 
 import styles from '../styles/pages/RecipeDetails.module.sass';
 
 import {
   DONE_RECIPES,
-  DRINK,
   ERROR_MESSAGE,
-  FAVORITE_BTN,
-  FAVORITE_RECIPES,
   INSTRUCTIONS,
   IN_PROGRESS_RECIPES,
-  MEAL,
   MEALS,
-  RECIPE_CATEGORY,
-  RECIPE_PHOTO,
-  RECIPE_TITLE,
-  SHARE_BTN,
   START_RECIPE_BTN,
-  TWO_THOUSAND,
   VIDEO,
 } from '../services/constTypes';
 
 function RecipeDetails() {
   const [isURLCopied, setIsURLCopied] = useState(false);
-  const [recipeFavorite, setRecipeFavorite] = useState(false);
 
   const [, pathname, id] = useLocation().pathname.split('/');
 
   const {
-    data: {
-      image,
-      title,
-      category,
-      alcoholic,
-      video,
-      ingredients,
-      measures,
-      instructions,
-      strArea,
-    },
+    data: { video, ingredients, measures, instructions },
+    data,
     isLoading,
     error,
   } = useFetch(pathname === MEALS ? getMealByID : getDrinkByID, id);
@@ -67,85 +40,17 @@ function RecipeDetails() {
   const isRecipeInProgress = !!getFromLocalStorage(IN_PROGRESS_RECIPES)[pathname]
     && !!getFromLocalStorage(IN_PROGRESS_RECIPES)[pathname][id];
 
-  const isFavorite = useCallback(
-    () => getFromLocalStorage(FAVORITE_RECIPES).some((recipe) => recipe.id === id),
-    [id],
-  );
-
-  useEffect(() => {
-    setRecipeFavorite(isFavorite);
-  }, [isFavorite]);
-
-  const favoriteRecipe = () => {
-    manageFavoritesInLocalStorage(FAVORITE_RECIPES, {
-      id,
-      type:
-        pathname === MEALS
-          ? MEAL.toLocaleLowerCase()
-          : DRINK.toLocaleLowerCase(),
-      nationality: strArea || '',
-      category,
-      alcoholicOrNot: alcoholic || '',
-      name: title,
-      image,
-    });
-    setRecipeFavorite(isFavorite);
-  };
-
-  const urlToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setIsURLCopied(true);
-    setTimeout(() => {
-      setIsURLCopied(false);
-    }, TWO_THOUSAND);
-  };
-
   return isLoading ? (
-    <p>Carregando...</p>
+    <div className={ styles.loadingDiv }>
+      <span className="loader" />
+    </div>
   ) : (
     <div>
       {error ? (
         <p data-testid={ ERROR_MESSAGE }>Erro</p>
       ) : (
         <div className={ styles.mainContainer }>
-          <div className={ styles.headerContainer }>
-            <img
-              className={ styles.recipeImage }
-              src={ image }
-              alt="Imagem da Receita"
-              width="200"
-              data-testid={ RECIPE_PHOTO }
-            />
-            <div className={ styles.headerContent }>
-              <div>
-                <img
-                  className="categoryIcon"
-                  src={ pathname === MEALS ? allMeals : allDrinks }
-                  alt="category icon"
-                />
-                <p data-testid={ RECIPE_CATEGORY }>
-                  {category}
-                  {' '}
-                  {alcoholic}
-                </p>
-              </div>
-              <div>
-                <Buttons
-                  type="button"
-                  dataTestid={ SHARE_BTN }
-                  icon={ shareIcon }
-                  onClick={ urlToClipboard }
-                />
-                <Buttons
-                  type="button"
-                  dataTestid={ FAVORITE_BTN }
-                  icon={ recipeFavorite ? blackHeartIcon : whiteHeartIcon }
-                  onClick={ favoriteRecipe }
-                />
-              </div>
-            </div>
-            <h1 data-testid={ RECIPE_TITLE }>{title}</h1>
-          </div>
+          <HeaderRecipes { ...data } setIsURLCopied={ setIsURLCopied } />
           <div className={ styles.ingredientsContainer }>
             <h2>Ingredients</h2>
             <ul data-testid="ingredients-ul">
@@ -154,7 +59,7 @@ function RecipeDetails() {
                   key={ ingredient }
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
-                  { `${ingredient} - ${measures[index]}` }
+                  {`${ingredient} - ${measures[index]}`}
                 </li>
               ))}
             </ul>
