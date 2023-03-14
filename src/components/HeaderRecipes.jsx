@@ -60,7 +60,11 @@ function HeaderRecipes({ image, title, category, alcoholic, strArea, setIsURLCop
   };
 
   const urlToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const url = window.location.href;
+    const urlForCopy = url.includes('/in-progress')
+      ? url.replace('/in-progress', '')
+      : url;
+    navigator.clipboard.writeText(urlForCopy);
     setIsURLCopied(true);
     setTimeout(() => {
       setIsURLCopied(false);
