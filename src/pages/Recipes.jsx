@@ -48,10 +48,10 @@ function Recipes() {
   return (
     <div>
       {render && (
-        <>
+        <div className="foodType">
           <CategoriesFilter apiType={ apiType } pageName={ pageName } />
           <RenderRecipes />
-        </>
+        </div>
       )}
     </div>
   );

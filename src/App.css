@@ -2,52 +2,14 @@ html {
   font-size: 62.5%;
 }
 
-.meals {
-  align-items: center;
-  background: #0fa36b;
-  color: #464646;
-  display: flex;
-  flex-direction: column;
-  font-family: sans-serif;
-  height: 100vh;
-  justify-content: center;
-  width: 100%;
-}
-
-.recipe-img {
-  max-height: 150px;
-}
-
-.doneCards-img {
-  max-height: 150px;
-}
-
 body {
-  background-color: rgb(121, 121, 121);
-  color: white;
+  background-color: #18181b;
   font-size: 1.6rem;
   padding-bottom: 50px;
   width: 100%;
+  max-width: 100vw;
 }
 
 .risco {
   text-decoration: line-through solid black;
-}
-
-.btnRecipe {
-  background-color: green;
-  bottom: 0;
-  color: white;
-  cursor: pointer;
-  font-size: 1.6rem;
-  height: 50px;
-  padding: 15px;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
-}
-
-.btnRecipe:disabled {
-  background-color: red;
-  cursor: not-allowed;
 }

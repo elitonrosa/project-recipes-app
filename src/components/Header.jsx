@@ -4,8 +4,16 @@ import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../styles/components/Header.sass';
+import logo from '../assets/svg/smallLogo.svg';
 
-function Header({ title, withProfileIcon = true, withSearchBar = true }) {
+function Header({
+  title,
+  titleIcon,
+  showTitle = false,
+  withProfileIcon = true,
+  withSearchBar = true,
+}) {
   const profileLink = '/profile';
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -14,28 +22,52 @@ function Header({ title, withProfileIcon = true, withSearchBar = true }) {
   };
 
   return (
-    <div>
-      <h1 data-testid="page-title">{title}</h1>
-      {withProfileIcon && (
-        <Link to={ profileLink }>
-          <img
-            src={ profileIcon }
-            alt="profileIcon"
-            data-testid="profile-top-btn"
-          />
-        </Link>
-      )}
+    <>
+      <header className="headerContainer">
+        <Link to="/meals" className="imgContainer">
 
-      {withSearchBar
+          <img src={ logo } alt="logo" />
+          <p>
+            Recipes
+            {' '}
+            <span>app</span>
+          </p>
+
+        </Link>
+        <div className="profileContainer">
+
+          {withSearchBar
       && (
         <div>
           <button onClick={ handleClick }>
             <img src={ searchIcon } alt="searchIcon" data-testid="search-top-btn" />
           </button>
-          {showSearchBar && <SearchBar />}
+
         </div>
       )}
-    </div>
+
+          {withProfileIcon && (
+            <Link to={ profileLink }>
+              <img
+                src={ profileIcon }
+                alt="profileIcon"
+                data-testid="profile-top-btn"
+              />
+            </Link>
+          )}
+        </div>
+      </header>
+      <div className="gap" />
+      {showSearchBar && <SearchBar />}
+      <div className="titleContainer" style={ !showTitle ? { display: 'none' } : null }>
+        <img src={ titleIcon } alt="title" className="titleIcon" />
+        <h1
+          data-testid="page-title"
+        >
+          {title}
+        </h1>
+      </div>
+    </>
   );
 }
 

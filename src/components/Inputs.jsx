@@ -10,6 +10,7 @@ function Inputs({
   labelText,
   nameClass,
   checked = false,
+  placeholder,
 }) {
   return (
     <>
@@ -21,6 +22,7 @@ function Inputs({
         checked={ type !== 'radio' ? checked : null }
         value={ value }
         id={ dataTestid }
+        placeholder={ placeholder }
       />
       {labelText && (
         <label htmlFor={ dataTestid } className={ nameClass }>

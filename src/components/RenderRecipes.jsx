@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import RecipesContext from '../context/recipesContext';
+import '../styles/components/RenderRecipes.sass';
 
 function RenderRecipes() {
   const { filteredRecipes } = useContext(RecipesContext);
@@ -32,24 +33,27 @@ function RenderRecipes() {
   }, [filteredRecipes]);
 
   return (
-    <div>
-      {showRecipes.map((recipe, index) => (
-        <Link to={ `/${pageName}/${recipe[idType]}` } key={ index }>
-          <div
-            data-testid={ `${index}-recipe-card` }
-          >
-            <img
-              src={ recipe.strMealThumb || recipe.strDrinkThumb }
-              alt={ recipe.strMeal || recipe.strDrink }
-              className="recipe-img"
-              data-testid={ `${index}-card-img` }
-            />
-            <p data-testid={ `${index}-card-name` }>
-              {recipe.strMeal || recipe.strDrink}
-            </p>
-          </div>
-        </Link>
-      ))}
+    <div className="test">
+      <div className="cardRecipeContainer">
+        {showRecipes.map((recipe, index) => (
+          <Link to={ `/${pageName}/${recipe[idType]}` } key={ index }>
+            <div
+              data-testid={ `${index}-recipe-card` }
+              className="cardRecipe"
+            >
+              <img
+                src={ recipe.strMealThumb || recipe.strDrinkThumb }
+                alt={ recipe.strMeal || recipe.strDrink }
+                className="recipe-img"
+                data-testid={ `${index}-card-img` }
+              />
+              <p data-testid={ `${index}-card-name` } className="recipe-name">
+                {recipe.strMeal || recipe.strDrink}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
