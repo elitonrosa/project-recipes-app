@@ -106,6 +106,11 @@ function RecipeInProgress() {
           ) : (
             <>
               <HeaderRecipes { ...data } setIsURLCopied={ setIsURLCopied } />
+              {isURLCopied && (
+                <div>
+                  <p>Link copied!</p>
+                </div>
+              )}
               <div className="instructionsContainer">
                 <h2>Instructions</h2>
                 <p
@@ -136,11 +141,6 @@ function RecipeInProgress() {
                   ))}
                 </ul>
               </div>
-              {isURLCopied && (
-                <div>
-                  <p>Link copied!</p>
-                </div>
-              )}
               <div className="finishRecipe">
                 <Buttons
                   type="button"

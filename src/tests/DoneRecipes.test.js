@@ -86,7 +86,7 @@ describe('Testa a página de receitas feitas', () => {
       },
     );
 
-    const shareButton = screen.getByTestId('0-share-btn');
+    const shareButton = screen.getByTestId('0-horizontal-share-btn');
 
     await act(async () => {
       userEvent.click(shareButton);

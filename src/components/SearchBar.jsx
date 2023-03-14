@@ -24,7 +24,6 @@ function SearchBar() {
   const { searchInput, searchRadio } = searchInfo;
 
   const handleChange = ({ target }) => {
-    console.log(target);
     const { name, value } = target;
     setSearchInfo({
       ...searchInfo,

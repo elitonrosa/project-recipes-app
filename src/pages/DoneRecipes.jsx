@@ -122,7 +122,7 @@ function DoneRecipes() {
 
               <span data-testid={ `${index}-horizontal-top-text` }>
                 {`
-                ${recipe.nationality ? `${recipe.nationality} -` : ''}${recipe.category}`}
+              ${recipe.nationality ? `${recipe.nationality} - ` : ''}${recipe.category}`}
               </span>
               {
                 recipe.type === 'meal' && (
@@ -152,7 +152,7 @@ function DoneRecipes() {
               </span>
 
               <Buttons
-                dataTestid={ `${index}-share-btn` }
+                dataTestid={ `${index}-horizontal-share-btn` }
                 onClick={ () => handleShareClick(recipe.type, recipe.id) }
                 icon={ shareIcon }
               />
