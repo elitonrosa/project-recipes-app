@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-
 import Buttons from '../components/Buttons';
 import Inputs from '../components/Inputs';
-import Header from '../components/Header';
-
 import useFetch from '../hooks/useFetch';
 import { getDrinkByID, getMealByID } from '../services/fetchFunctions';
 import {
@@ -13,10 +10,11 @@ import {
   setDoneRecipeInLocalStorage,
   setInProgressToLocalStorage,
 } from '../services/localStorageHelpers';
-
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import '../styles/pages/RecipeInProgress.sass';
+import leftArrow from '../assets/svg/arrowLeft.svg';
 
 import {
   DRINK,
@@ -37,7 +35,7 @@ import {
 
 function RecipeInProgress() {
   const [, pathname, id, pageStatus] = useLocation().pathname.split('/');
-
+  const history = useHistory();
   const {
     data: {
       image,
@@ -58,8 +56,6 @@ function RecipeInProgress() {
   const [isURLCopied, setIsURLCopied] = useState(false);
   const [completed, setCompleted] = useState({});
   const [disableButton, setDisableButton] = useState(true);
-
-  const history = useHistory();
 
   const isFavorite = useCallback(
     () => getFromLocalStorage(FAVORITE_RECIPES).some((recipe) => recipe.id === id),
@@ -142,35 +138,73 @@ function RecipeInProgress() {
     });
     history.push('/done-recipes');
   };
+  const goBackPage = () => history.goBack();
 
   return (
-    <>
-      <Header />
+    <div className="progressPage">
       {isLoading ? (
         <p>Carregando...</p>
       ) : (
-        <div>
+        <div className="progressContainer">
           {error ? (
             <p data-testid={ ERROR_MESSAGE }>Erro</p>
           ) : (
             <>
-              <img
-                src={ image }
-                alt="Imagem da Receita"
-                width="200"
-                data-testid={ RECIPE_PHOTO }
-              />
-              <h1 data-testid={ RECIPE_TITLE }>{title}</h1>
-              <p data-testid={ RECIPE_CATEGORY }>
-                Categories:
-                {' '}
-                {category}
-                {' '}
-                {alcoholic}
-              </p>
-              <p data-testid={ INSTRUCTIONS }>{instructions}</p>
-              <div>
-                <ul data-testid="ingredients-ul">
+              <div className="topPage">
+                <img
+                  src={ image }
+                  alt="Imagem da Receita"
+                  width="200"
+                  data-testid={ RECIPE_PHOTO }
+                  className="recipeImage"
+                />
+                <h1
+                  data-testid={ RECIPE_TITLE }
+                  className="recipeTitle"
+                >
+                  {title}
+                </h1>
+                <p
+                  data-testid={ RECIPE_CATEGORY }
+                  className="recipeCategory"
+                >
+                  {category}
+                  {' '}
+                  {alcoholic}
+                </p>
+                <div className="btnContainer">
+                  <Buttons
+                    type="button"
+                    icon={ leftArrow }
+                    onClick={ goBackPage }
+                    labelText="Back"
+                  />
+                  <Buttons
+                    type="button"
+                    dataTestid={ SHARE_BTN }
+                    icon={ shareIcon }
+                    onClick={ urlToClipboard }
+                  />
+                  <Buttons
+                    type="button"
+                    dataTestid={ FAVORITE_BTN }
+                    icon={ recipeFavorite ? blackHeartIcon : whiteHeartIcon }
+                    onClick={ favoriteRecipe }
+                  />
+                </div>
+              </div>
+              <div className="instructionsContainer">
+                <p>Instructions</p>
+                <p
+                  data-testid={ INSTRUCTIONS }
+                  className="instructions"
+                >
+                  {instructions}
+                </p>
+              </div>
+              <div className="ingredientsContainer">
+                <p>Ingredients</p>
+                <ul data-testid="ingredients-ul" className="ingredients">
                   {ingredients.map((ingredient, index) => (
                     <li
                       key={ ingredient }
@@ -189,39 +223,27 @@ function RecipeInProgress() {
                   ))}
                 </ul>
               </div>
-              <div>
-                <Buttons
-                  type="button"
-                  dataTestid={ SHARE_BTN }
-                  icon={ shareIcon }
-                  onClick={ urlToClipboard }
-                />
-                <Buttons
-                  type="button"
-                  dataTestid={ FAVORITE_BTN }
-                  icon={ recipeFavorite ? blackHeartIcon : whiteHeartIcon }
-                  onClick={ favoriteRecipe }
-                />
-              </div>
               {isURLCopied && (
                 <div>
                   <p>Link copied!</p>
                 </div>
               )}
-              <Buttons
-                type="button"
-                dataTestid={ FINISH_RECIPE_BTN }
-                labelText="Finish Recipe"
-                isDisabled={ disableButton }
-                name="Finish Recipe"
-                btnClass="btnRecipe"
-                onClick={ onClickFinish }
-              />
+              <div className="finishRecipe">
+                <Buttons
+                  type="button"
+                  dataTestid={ FINISH_RECIPE_BTN }
+                  labelText="Finish Recipe"
+                  isDisabled={ disableButton }
+                  name="Finish Recipe"
+                  btnClass="btnRecipe"
+                  onClick={ onClickFinish }
+                />
+              </div>
             </>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
